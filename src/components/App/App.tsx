@@ -40,7 +40,7 @@ export default function App() {
         toast('No movies found for your request.');
       }
     } catch (error) {
-      console.error('Error fetching movies:', error);
+      console.error('Error:', error);
       setError(true);
     } finally {
       setLoader(false);
