@@ -1,4 +1,5 @@
 import { useState } from 'react'
+
 import './App.module.css'
 import type { Movie } from '../../types/movie'
 import fetchMovies from '../../services/movieService';
@@ -11,6 +12,8 @@ import toast from 'react-hot-toast';
 import { Toaster } from 'react-hot-toast';
 
 export default function App() {
+
+
   const [error, setError] = useState<boolean>(false);
   const [loader, setLoader] = useState<boolean>(false);
   const [movies, setMovies] = useState<Movie[]>([]);
