@@ -30,7 +30,9 @@ export default function SearchBar({ onSubmit }: SearchBarProps) {
                     Powered by TMDB
                 </a>
                 <form className={styles.form} action={handleSubmit}>
+                    <label className={styles.label} htmlFor="query">
                     <input
+                        id="query"
                         className={styles.input}
                         type="text"
                         name="query"
@@ -38,6 +40,7 @@ export default function SearchBar({ onSubmit }: SearchBarProps) {
                         placeholder="Search movies..."
                         autoFocus
                     />
+                    </label>
                    
                     <button className={styles.button} type="submit">
                         Search
