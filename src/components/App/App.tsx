@@ -14,7 +14,6 @@ import ReactPaginate from 'react-paginate';
 
 
 export default function App() {
-
       const [page, setPage] = useState(1);
       const [movies, setMovies] = useState<Movie[]>([]);
       const [isModalOpen, setIsModalOpen] = useState(false);
@@ -29,8 +28,6 @@ export default function App() {
       );
 
       const totalPages = data?.totalPages || 0;
-
-     
 
       if (isLoading) {
         return <p> {isLoading} </p>
@@ -61,14 +58,19 @@ export default function App() {
       }
     } catch (error) {
       console.error('Error:', error);
-
     } 
   };    
 
   return (
     <>
-      <SearchBar onSubmit={handleSearch} />
-      {isLoading && <Loader loader={isLoading} />}
+      <SearchBar 
+            onSubmit={handleSearch}
+      />
+      {isLoading
+            && <Loader 
+              loader={isLoading} 
+            />
+      }
       <ReactPaginate 
             pageCount={totalPages}
             pageRangeDisplayed={5}
@@ -81,10 +83,24 @@ export default function App() {
             previousLabel="←"
       />
       {movies.length > 0 
-      ? <MovieGrid movies={movies} onSelect={openModal} />       
-      : <Toaster />}
-      {error && <ErrorMessage error={error} />}
-      {isModalOpen && selectedMovie && <MovieModal movie={selectedMovie} onClose={closeModal} />}
+            ? <MovieGrid 
+              movies={movies} 
+              onSelect={openModal}
+            />       
+            : <Toaster />
+      }
+      {error 
+            && <ErrorMessage
+              error={error}
+            />
+      }
+      {isModalOpen
+            && selectedMovie
+            && <MovieModal
+              movie={selectedMovie}
+              onClose={closeModal}
+            />
+      }
     </>
   )
 }
