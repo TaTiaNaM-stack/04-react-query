@@ -15,27 +15,20 @@ import ReactPaginate from 'react-paginate';
 
 export default function App() {
       const [page, setPage] = useState(1);
-      const [movies, setMovies] = useState<Movie[]>([]);
+      const [query, setQuery] = useState('');
+      const [movies, setMovies] = useState([]);
       const [isModalOpen, setIsModalOpen] = useState(false);
       const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
- const { data, isLoading, isError, error } = useQuery({
-        queryKey: ['movies', page],
-        queryFn: () => fetchMovies(),
+ const { data, isLoading, error } = useQuery({
+        queryKey: ['movies', page, query],
+        queryFn: () => fetchMovies(query),
         placeholderData: keepPreviousData,
-        enabled: page > 0
+        enabled: query.trim() !== '' || page > 1,
         }
       );
 
       const totalPages = data?.totalPages || 0;
-
-      if (isLoading) {
-        return <p> {isLoading} </p>
-      }
-    
-      if (isError) {
-        return <p> {error.message} </p>
-      }
 
   const openModal = (movie: Movie) => {
     setSelectedMovie(movie);
@@ -48,17 +41,15 @@ export default function App() {
   };
   
   const handleSearch = async (query: string) => {
-    try {
+      setQuery(query);
       setMovies([]);
       setPage(1);
       const results = await fetchMovies(query);
-      setMovies(results.movies);
+      setMovies(movies);
       if (results.movies.length === 0) {
         toast('No movies found for your request.');
       }
-    } catch (error) {
-      console.error('Error:', error);
-    } 
+
   };    
 
   return (
