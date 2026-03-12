@@ -17,8 +17,8 @@ export default async function fetchMovies(query?: string): Promise<{ movies: Mov
 
   const { data } = await axios.get<FetchMoviesResponse>(endpoint, {
     params: {
-      ...(query && { query })
-      
+      query: query,
+      page: 1,
     },
     headers: {
       Authorization: `Bearer ${VITE_TMDB_TOKEN}`,
