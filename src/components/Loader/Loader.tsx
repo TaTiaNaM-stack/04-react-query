@@ -10,6 +10,6 @@ export default function Loader({ loader }: LoaderProps) {
     }
     return (
 
-<p className={css.text}>Loading movies, please wait...</p>
+        <p className={css.text}>Loading movies, please wait...</p>
     )
 }

@@ -6,7 +6,7 @@ const VITE_TMDB_TOKEN = import.meta.env.VITE_TMDB_TOKEN;
 interface FetchMoviesResponse {
   results: Movie[];
   total_pages: number;
-   page: number;
+  page: number;
 
 }
 

@@ -12,8 +12,7 @@ export default function SearchBar({ onSubmit }: SearchBarProps) {
         if (!query) {
             toast('Please enter your search query.');
             return;
-        }
-        
+        }        
         await onSubmit(query);
     };
     
@@ -31,21 +30,19 @@ export default function SearchBar({ onSubmit }: SearchBarProps) {
                 </a>
                 <form className={styles.form} action={handleSubmit}>
                     <label className={styles.label} htmlFor="query">
-                    <input
-                        id="query"
-                        className={styles.input}
-                        type="text"
-                        name="query"
-                        autoComplete="off"
-                        placeholder="Search movies..."
-                        autoFocus
-                    />
-                    </label>
-                   
+                        <input
+                            id="query"
+                            className={styles.input}
+                            type="text"
+                            name="query"
+                            autoComplete="off"
+                            placeholder="Search movies..."
+                            autoFocus
+                        />
+                    </label>                   
                     <button className={styles.button} type="submit">
                         Search
                     </button>
-
                 </form>
             </div>
         </header>

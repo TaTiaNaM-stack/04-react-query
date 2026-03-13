@@ -9,6 +9,6 @@ export default function ErrorMessage({ error }: ErrorMessageProps) {
         return null;
     }
     return (
-<p className={css.text}>There was an error, please try again...</p>
+        <p className={css.text}>There was an error, please try again...</p>
     )
 }

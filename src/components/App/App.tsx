@@ -16,7 +16,6 @@ import ReactPaginate from 'react-paginate';
 export default function App() {
       const [page, setPage] = useState(1);
       const [query, setQuery] = useState('');
-      const [isModalOpen, setIsModalOpen] = useState(false);
       const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
       const { data, isLoading, error, isError, isSuccess, isPending } = useQuery({
@@ -30,10 +29,10 @@ export default function App() {
 
       const openModal = (movie: Movie) => {
         setSelectedMovie(movie);
-        setIsModalOpen(true);
+
       };
       const closeModal = () => {
-        setIsModalOpen(false);
+
         setSelectedMovie(null);
       };
       const handleSearch =  async (query: string) => {
@@ -76,8 +75,7 @@ export default function App() {
       )}
       <Toaster />      
 
-      {isModalOpen
-            && selectedMovie
+      {selectedMovie
             && <MovieModal
               movie={selectedMovie}
               onClose={closeModal}
