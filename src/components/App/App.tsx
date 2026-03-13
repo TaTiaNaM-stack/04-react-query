@@ -1,11 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query';
 import css from './App.module.css'
 import type { Movie } from '../../types/movie'
 import fetchMovies from '../../services/movieService';
 import SearchBar from '../SearchBar/SearchBar';
 import MovieGrid from '../MovieGrid/MovieGrid';
-import Loader from '../Loader/Loader';
+// import Loader from '../Loader/Loader';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import MovieModal from '../MovieModal/MovieModal';
 import toast from 'react-hot-toast';
@@ -21,47 +21,39 @@ export default function App() {
 
       const { data, isLoading, error, isError, isSuccess } = useQuery({
         queryKey: ['movies', query, page],
-        queryFn: () => fetchMovies(query),
-
+        queryFn: () => fetchMovies(page, query),
         enabled: query.trim() !== '',
+        placeholderData: { movies: [], totalPages: 0, query: '', page: 1}
         }
       );
-
       const totalPages = data?.totalPages || 0;
 
       const openModal = (movie: Movie) => {
         setSelectedMovie(movie);
         setIsModalOpen(true);
       };
-
       const closeModal = () => {
         setIsModalOpen(false);
         setSelectedMovie(null);
       };
-
-      const handleSearch = async (query: string) => {
+      const handleSearch =  async (query: string) => {
           setQuery(query);
-          setPage(1);
-      
-      const results = await fetchMovies(query);
-
-      
-      if (results.movies.length === 0) {
-        toast('No movies found for your request.');
+          setPage(page);     
+    }  
+    useEffect(() => {
+      if (isSuccess === false) {        
+          toast('No movies found for your request.');       
       }
-    }
-
-    
-
+    }, []);
   return (
     <>
       <SearchBar 
             onSubmit={handleSearch}
       />
       {isLoading
-            && <Loader 
-              loader={isLoading} 
-            />
+            // && <Loader 
+            //   loader={isLoading} 
+            // />
       }
       {isSuccess 
             && <ReactPaginate 
@@ -77,12 +69,13 @@ export default function App() {
             />
       }
       {data?.movies
-            ? <MovieGrid 
+            && <MovieGrid 
               movies={data.movies} 
               onSelect={openModal}
             />       
-            : <Toaster />
+
       }
+      <Toaster />      
       {isError 
             && <ErrorMessage
               error={error}
