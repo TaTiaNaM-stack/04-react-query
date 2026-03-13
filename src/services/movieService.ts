@@ -7,10 +7,10 @@ interface FetchMoviesResponse {
   results: Movie[];
   total_pages: number;
    page: number;
-   query: string;
+
 }
 
-export default async function fetchMovies( page: number,query?: string): Promise<{ movies: Movie[]; totalPages: number; query?: string; page: number }> {
+export default async function fetchMovies(query: string, page: number): Promise<{ movies: Movie[]; totalPages: number; query?: string; page: number }> {
   const endpoint = query
     ? `https://api.themoviedb.org/3/search/movie`
     : `https://api.themoviedb.org/3/movie/popular`;
@@ -25,5 +25,5 @@ export default async function fetchMovies( page: number,query?: string): Promise
     }
   });
 
-  return { movies: data.results, totalPages: data.total_pages, query: data.query, page: data.page };
+  return { movies: data.results, totalPages: data.total_pages, page: data.page };
 }
