@@ -19,7 +19,7 @@ export default function App() {
       const [isModalOpen, setIsModalOpen] = useState(false);
       const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
-      const { data, isLoading, error, isError, isSuccess } = useQuery({
+      const { data, isLoading, error, isError, isSuccess, isPending } = useQuery({
         queryKey: ['movies', query, page],
         queryFn: () => fetchMovies(query, page),
         enabled: query.trim() !== '',
@@ -38,7 +38,6 @@ export default function App() {
       };
       const handleSearch =  async (query: string) => {
           setQuery(query);
-          setPage(page); 
           setPage(1);    
     }  
     useEffect(() => {
@@ -51,10 +50,12 @@ export default function App() {
       <SearchBar 
             onSubmit={handleSearch}
       />
-      <Loader 
-              loader={isLoading} 
+      {isPending && <Loader loader={isLoading} />}
+      {isError 
+            && <ErrorMessage
+              error={error}
             />
-      
+      }
       {isSuccess
             && data?.movies.length > 0  
             && <ReactPaginate 
@@ -69,19 +70,12 @@ export default function App() {
                   previousLabel="←"
             />
       }
-      {data?.movies
-            && <MovieGrid 
-              movies={data.movies} 
-              onSelect={openModal}
-            />       
-
-      }
+      {isSuccess 
+            && data.movies.length > 0 
+            && (<MovieGrid movies={data.movies} onSelect={openModal} />
+      )}
       <Toaster />      
-      {isError 
-            && <ErrorMessage
-              error={error}
-            />
-      }
+
       {isModalOpen
             && selectedMovie
             && <MovieModal
